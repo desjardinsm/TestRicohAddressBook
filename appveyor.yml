@@ -4,7 +4,7 @@ install:
 - ps: Install-Module psake, Pester
 build: off
 test_script:
-- ps: >-
+- ps: |-
     Invoke-psake ./psakefile.ps1 test -parameters @{ CodeCoverage = $true }
 
     if ($LASTEXITCODE -gt 0) {
