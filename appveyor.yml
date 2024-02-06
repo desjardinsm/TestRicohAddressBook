@@ -28,11 +28,11 @@ deploy:
     artifact: $(APPVEYOR_PROJECT_NAME)
     on:
       IS_PREVIEW: false
-  -
-    <<: *GitHubRelease
-    prerelease: true
-    on:
-      IS_PREVIEW: true
+  # -
+  #   <<: *GitHubRelease
+  #   prerelease: true
+  #   on:
+  #     IS_PREVIEW: true
 on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
   - ps: |-
