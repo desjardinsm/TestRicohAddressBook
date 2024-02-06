@@ -4,6 +4,7 @@ init:
   - ps: |-
       if ($env:APPVEYOR_REPO_TAG) {
         $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG -like '*-pre.*'
+        Write-Host "IS_PRERELEASE:" $env:IS_PRERELEASE
       }
 
       $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
@@ -24,6 +25,8 @@ test_script:
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
+before_deploy:
+  - ps: Write-Host $env:IS_PRERELEASE
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
