@@ -32,4 +32,4 @@ on_finish:
       ls
       Write-Host (Resolve-Path './testResults.xml')
       cat (Resolve-Path './testResults.xml')
-      $client.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path './testResults.xml'))
+      $client.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path './testResults.xml'))
