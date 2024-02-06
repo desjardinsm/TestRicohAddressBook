@@ -29,4 +29,7 @@ on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
   - ps: |-
       $client = [System.Net.WebClient]::new()
+      ls
+      Write-Host (Resolve-Path './testResults.xml')
+      cat (Resolve-Path './testResults.xml')
       $client.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path './testResults.xml'))
