@@ -1,5 +1,5 @@
 Task test {
-    Write-Host "psake:" $ErrorActionPreference
-    Invoke-Pester
-    Write-Host "Finished Invoke-Pester"
+    $configuration = New-PesterConfiguration
+    $configuration.Run.Throw = $true
+    Invoke-Pester -Configuration $configuration
 }
