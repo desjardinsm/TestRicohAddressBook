@@ -28,4 +28,4 @@ on_finish:
       # Upload test results to AppVeyor
       $client = [System.Net.WebClient]::new()
       $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
-      $client.UploadFile("https://$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
+      $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
