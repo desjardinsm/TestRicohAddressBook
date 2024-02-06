@@ -5,6 +5,12 @@ init:
       if ($env:APPVEYOR_REPO_TAG) {
         $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG -like '*-pre.*'
       }
+
+      $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
+        "Release $env:APPVEYOR_REPO_TAG_NAME"
+      } else {
+        $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
+      }
 install:
   - ps: Install-Module psake, Pester
 build: off
@@ -19,10 +25,9 @@ artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
 deploy:
-  - &GitHubRelease
-    provider: GitHub
+  - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
-    description: $(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)
+    description: $(RELEASE_DESCRIPTION)
     auth_token:
       secure: +PxazkcvZpF9LLVySBX9zHY5O8hIWpW0+6AGd7j3uX747Sl8hyIqHMgpBiAC4WpYa8hjCJI6KTzYdDD+G7iczS7UGspTj+UzK9708fNYLcET3pe/bvndYzg4UKbW9k4L
     artifact: $(APPVEYOR_PROJECT_NAME)
