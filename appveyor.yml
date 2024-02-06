@@ -1,10 +1,12 @@
 version: '{build}'
 skip_non_tags: true
 init:
-  - ps: Write-Host 'init:' $env:APPVEYOR_REPO_TAG_NAME
+  - ps: |-
+      if ($env:APPVEYOR_REPO_TAG) {
+        $env:IS_PREVIEW = $env:APPVEYOR_REPO_TAG -like '*-pre.*'
+      }
 install:
   - ps: Install-Module psake, Pester
-  - ps: Write-Host 'install:' $env:APPVEYOR_REPO_TAG_NAME
 build: off
 test_script:
   - ps: |-
@@ -16,17 +18,20 @@ test_script:
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
-before_deploy:
-  - ps: Write-Host 'before_deploy:' $env:APPVEYOR_REPO_TAG_NAME
 deploy:
-  - provider: GitHub
+  - &GitHubRelease
+    provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: $(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)
     auth_token:
       secure: +PxazkcvZpF9LLVySBX9zHY5O8hIWpW0+6AGd7j3uX747Sl8hyIqHMgpBiAC4WpYa8hjCJI6KTzYdDD+G7iczS7UGspTj+UzK9708fNYLcET3pe/bvndYzg4UKbW9k4L
     artifact: $(APPVEYOR_PROJECT_NAME)
     on:
-      APPVEYOR_REPO_TAG: true
+      IS_PREVIEW: false
+  -
+    <<: *GitHubRelease
+    prerelease: true
+    IS_PREVIEW: true
 on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
   - ps: |-
