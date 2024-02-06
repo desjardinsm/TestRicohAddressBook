@@ -31,7 +31,8 @@ deploy:
   -
     <<: *GitHubRelease
     prerelease: true
-    IS_PREVIEW: true
+    on:
+      IS_PREVIEW: true
 on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
   - ps: |-
