@@ -1,8 +1,10 @@
 Task test {
     $configuration = New-PesterConfiguration
+
     $configuration.Run.Throw = $true
     $configuration.TestResult.Enabled = $true
-    $configuration.TestResult.OutputFormat = 'NUnit3'
-    $configuration.TestResult.OutputPath = 'results.nunit3.xml'
+    $configuration.CodeCoverage.Enabled = $true
+    $configuration.CodeCoverage.Path = './Module/'
+
     Invoke-Pester -Configuration $configuration
 }
