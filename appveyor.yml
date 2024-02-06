@@ -20,7 +20,6 @@ deploy:
     auth_token:
       secure: +PxazkcvZpF9LLVySBX9zHY5O8hIWpW0+6AGd7j3uX747Sl8hyIqHMgpBiAC4WpYa8hjCJI6KTzYdDD+G7iczS7UGspTj+UzK9708fNYLcET3pe/bvndYzg4UKbW9k4L
     artifact: $(APPVEYOR_PROJECT_NAME)
-    draft: false
     on:
       APPVEYOR_REPO_TAG: true
 on_finish:
@@ -29,4 +28,4 @@ on_finish:
       # Upload test results to AppVeyor
       $client = [System.Net.WebClient]::new()
       $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
-      $client.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$env:APPVEYOR_JOB_ID", $results)
+      $client.UploadFile("https://$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
