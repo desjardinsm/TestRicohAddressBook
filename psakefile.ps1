@@ -1,0 +1,3 @@
+Task test {
+    Invoke-Pester
+}
