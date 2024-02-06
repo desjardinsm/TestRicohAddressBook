@@ -1,7 +1,10 @@
 version: '{build}'
 skip_non_tags: true
+init:
+  - ps: Write-Host 'init:' $env:APPVEYOR_REPO_TAG_NAME
 install:
   - ps: Install-Module psake, Pester
+  - ps: Write-Host 'install:' $env:APPVEYOR_REPO_TAG_NAME
 build: off
 test_script:
   - ps: |-
@@ -13,6 +16,8 @@ test_script:
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
+before_deploy:
+  - ps: Write-Host 'before_deploy:' $env:APPVEYOR_REPO_TAG_NAME
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
