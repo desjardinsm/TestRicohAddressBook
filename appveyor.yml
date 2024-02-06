@@ -3,7 +3,7 @@ skip_non_tags: true
 init:
   - ps: |-
       if ($env:APPVEYOR_REPO_TAG) {
-        $env:IS_PREVIEW = $env:APPVEYOR_REPO_TAG -like '*-pre.*'
+        $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG -like '*-pre.*'
       }
 install:
   - ps: Install-Module psake, Pester
@@ -26,13 +26,9 @@ deploy:
     auth_token:
       secure: +PxazkcvZpF9LLVySBX9zHY5O8hIWpW0+6AGd7j3uX747Sl8hyIqHMgpBiAC4WpYa8hjCJI6KTzYdDD+G7iczS7UGspTj+UzK9708fNYLcET3pe/bvndYzg4UKbW9k4L
     artifact: $(APPVEYOR_PROJECT_NAME)
+    prerelease: $(IS_PRERELEASE)
     on:
-      IS_PREVIEW: false
-  # -
-  #   <<: *GitHubRelease
-  #   prerelease: true
-  #   on:
-  #     IS_PREVIEW: true
+      APPVEYOR_REPO_TAG: true
 on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
   - ps: |-
