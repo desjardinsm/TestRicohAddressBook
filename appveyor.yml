@@ -27,6 +27,6 @@ deploy:
     APPVEYOR_REPO_TAG: true
 on_finish:
     # Upload test results on build finish (after_test will not run on a failed build)
-  - ps: >-
+  - ps: |-
       $client = [System.Net.WebClient]::new()
       $client.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path './testResults.xml'))
