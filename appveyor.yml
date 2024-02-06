@@ -11,7 +11,7 @@ test_script:
       throw 'Tests failed'
     }
 after_test:
-  - ps: Write-Host "after_test: https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)"
+  - ps: 'Write-Host "after_test: https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)"'
 artifacts:
 - path: Module
   name: $(APPVEYOR_PROJECT_NAME)
@@ -26,4 +26,4 @@ deploy:
   on:
     APPVEYOR_REPO_TAG: true
 on_finish:
-  - ps: Write-Host "on_finish: https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)"
+  - ps: 'Write-Host "on_finish: https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)"'
