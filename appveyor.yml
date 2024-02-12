@@ -39,12 +39,9 @@ deploy:
       APPVEYOR_REPO_TAG: true
 after_deploy:
   - ps: |-
-      Write-Host ($env:APPVEYOR_REPO_TAG) (-not $env:IS_PRERELEASE)
-      Write-Host ($env:APPVEYOR_REPO_TAG -and -not $env:IS_PRERELEASE)
       if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:IS_PRERELEASE -eq $false) {
         Remove-Item -Recurse ./Publish/RicohAddressBook/ -ErrorAction Ignore
         Copy-Item -Recurse ./Module/ ./Publish/TestRicohAddressBook/
-        Get-ChildItem ./Publish/TestRicohAddressBook/
 
         Publish-Module -Path ./Publish/TestRicohAddressBook/ -NuGetApiKey $env:NuGetApiKey
       }
