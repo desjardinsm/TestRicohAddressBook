@@ -2,8 +2,11 @@ version: "{build}"
 skip_non_tags: true
 init:
   - ps: |-
+      Write-Host "PreRelease:" $env:APPVEYOR_REPO_TAG
       if ($env:APPVEYOR_REPO_TAG) {
         $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
+        Write-Host $env:APPVEYOR_REPO_TAG_NAME $env:IS_PRERELEASE
+        Write-Host ($env:APPVEYOR_REPO_TAG) (-not $env:IS_PRERELEASE)
       }
 
       $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
