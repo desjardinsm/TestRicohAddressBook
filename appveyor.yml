@@ -1,4 +1,4 @@
-version: '{build}'
+version: "{build}"
 skip_non_tags: true
 init:
   - ps: |-
@@ -13,7 +13,7 @@ init:
       }
 install:
   - ps: Install-Module psake, Pester
-build: off
+build: false
 test_script:
   - ps: |-
       Invoke-psake ./psakefile.ps1 test
