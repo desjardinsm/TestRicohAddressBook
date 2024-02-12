@@ -2,11 +2,8 @@ version: "{build}"
 skip_non_tags: true
 init:
   - ps: |-
-      Write-Host "PreRelease:" $env:APPVEYOR_REPO_TAG
-      if ($env:APPVEYOR_REPO_TAG) {
+      if ($env:APPVEYOR_REPO_TAG -eq $true) {
         $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
-        Write-Host $env:APPVEYOR_REPO_TAG_NAME $env:IS_PRERELEASE
-        Write-Host ($env:APPVEYOR_REPO_TAG) (-not $env:IS_PRERELEASE)
       }
 
       $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
@@ -44,7 +41,7 @@ after_deploy:
   - ps: |-
       Write-Host ($env:APPVEYOR_REPO_TAG) (-not $env:IS_PRERELEASE)
       Write-Host ($env:APPVEYOR_REPO_TAG -and -not $env:IS_PRERELEASE)
-      if ($env:APPVEYOR_REPO_TAG -and -not $env:IS_PRERELEASE) {
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:IS_PRERELEASE -eq $false) {
         Remove-Item -Recurse ./Publish/RicohAddressBook/ -ErrorAction Ignore
         Copy-Item -Recurse ./Module/ ./Publish/TestRicohAddressBook/
         Get-ChildItem ./Publish/TestRicohAddressBook/
