@@ -54,7 +54,6 @@ if ($env:CI -eq $true) {
     }
 
     Task DeployToPowerShellGallery {
-        throw 'not implemented'
         if ($env:IS_PRERELEASE -eq $false) {
             Remove-Item -Recurse './Publish/RicohAddressBook/' -ErrorAction Ignore
             Copy-Item -Recurse './Module/' './Publish/RicohAddressBook/'
