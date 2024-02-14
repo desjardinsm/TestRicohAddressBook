@@ -19,11 +19,11 @@ install:
 build: false
 test_script:
   - ps: Start-Task Test
-after_test:
-  - ps: Start-Task InitializeDeployments
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
+before_deploy:
+  - ps: Start-Task InitializeDeployments
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
@@ -34,17 +34,8 @@ deploy:
     prerelease: $(IS_PRERELEASE)
     on:
       APPVEYOR_REPO_TAG: true
-  - provider: NuGet
-    server: https://www.powershellgallery.com/api/v2
-    api_key:
-      secure: 23+pfmN1D6MWK5DKZNxxX1R3VxBJ/Dn8/wVzJWqV7RvJcBoffGEx96hfa/fPOHyW
-    skip_symbols: true
-    artifact: $(APPVEYOR_PROJECT_NAME)
-    on:
-      IS_PRERELEASE: false
 after_deploy:
-    - ps: Write-Host 'IS_PRERELEASE' $env:IS_PRERELEASE
-#   - ps: Start-Task DeployToPowerShellGallery
+  - ps: Start-Task DeployToPowerShellGallery
 on_finish:
   # Upload test results on build finish (after_test will not run on a failed build)
   - ps: Start-Task UploadTestResults
