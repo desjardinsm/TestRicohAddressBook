@@ -42,7 +42,8 @@ deploy:
     artifact: $(APPVEYOR_PROJECT_NAME)
     on:
       IS_PRERELEASE: false
-# after_deploy:
+after_deploy:
+    - ps: Write-Host 'IS_PRERELEASE' $env:IS_PRERELEASE
 #   - ps: Start-Task DeployToPowerShellGallery
 on_finish:
   # Upload test results on build finish (after_test will not run on a failed build)

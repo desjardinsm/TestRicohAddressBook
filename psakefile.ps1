@@ -40,9 +40,12 @@ Task TagRelease {
 
 if ($env:CI -eq $true) {
     Task InitializeDeployments {
+        Write-Host 'APPVEYOR:' $env:APPVEYOR
         if ($env:APPVEYOR -eq $true) {
+            Write-Host 'APPVEYOR_REPO_TAG' $env:APPVEYOR_REPO_TAG
             if ($env:APPVEYOR_REPO_TAG -eq $true) {
                 $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
+                Write-Host 'IS_PRERELEASE' $env:IS_PRERELEASE
             }
 
             $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
