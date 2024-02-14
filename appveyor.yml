@@ -19,7 +19,7 @@ install:
 build: false
 test_script:
   - ps: |-
-      Invoke-psake ./psakefile.ps1 test
+      Invoke-psake -buildFile ./psakefile.ps1 -taskList Test -nologo -notr
 
       if (-not $psake.build_success) {
         exit 1

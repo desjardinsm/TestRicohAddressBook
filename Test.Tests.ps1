@@ -3,7 +3,7 @@ Describe 'Test Describe' {
         1 | Should -Be 1
     }
 
-    It -Skip 'Test Failure' {
+    It 'Test Failure' {
         1 | Should -Be 2
     }
 

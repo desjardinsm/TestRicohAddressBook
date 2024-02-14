@@ -1,5 +1,4 @@
 Task test {
-    throw 'tests failed'
     $configuration = New-PesterConfiguration
 
     $resultsDirectory = 'TestResults'
