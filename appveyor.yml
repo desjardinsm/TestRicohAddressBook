@@ -19,7 +19,7 @@ install:
 build: false
 test_script:
   - ps: |-
-      return 1
+      exit 1
       # Invoke-psake ./psakefile.ps1 test
 
       # if ($LASTEXITCODE -gt 0) {
