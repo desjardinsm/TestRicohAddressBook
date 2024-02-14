@@ -29,7 +29,12 @@ deploy:
     on:
       APPVEYOR_REPO_TAG: true
 after_deploy:
-  - ps: Invoke-psake -buildFile ./psakefile.ps1 -taskList DeployToPowerShellGallery -nologo -notr
+  - ps: |-
+      Invoke-psake -buildFile ./psakefile.ps1 -taskList DeployToPowerShellGallery -nologo -notr
+
+      if (-not $psake.build_success) {
+        exit 1
+      }
 # on_finish:
 #   # Upload test results on build finish (after_test will not run on a failed build)
 #   - ps: |-
