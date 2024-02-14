@@ -35,10 +35,6 @@ after_deploy:
       if (-not $psake.build_success) {
         exit 1
       }
-# on_finish:
-#   # Upload test results on build finish (after_test will not run on a failed build)
-#   - ps: |-
-#       # Upload test results to AppVeyor
-#       $client = [System.Net.WebClient]::new()
-#       $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
-#       $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
+on_finish:
+  # Upload test results on build finish (after_test will not run on a failed build)
+  - ps: Invoke-psake -buildFile ./psakefile.ps1 -taskList UploadTestResults -nologo -notr
