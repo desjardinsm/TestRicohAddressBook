@@ -62,4 +62,13 @@ if ($env:CI -eq $true) {
             Publish-Module -Path './Publish/RicohAddressBook/' -NuGetApiKey $env:NuGetApiKey
         }
     }
+
+    Task UploadTestResults {
+        if ($env:APPVEYOR -eq $true) {
+            # Upload test results to AppVeyor
+            $client = [System.Net.WebClient]::new()
+            $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
+            $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
+        }
+    }
 }
