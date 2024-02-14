@@ -53,7 +53,9 @@ if ($env:CI -eq $true) {
         }
     }
 
-    Task DeployToPowerShellGallery {
+    Task DeployToPowerShellGallery -precondition {$env:IS_PRERELEASE -eq $false} {
+        Write-Host 'deploying'
+        return
         if ($env:IS_PRERELEASE -eq $false) {
             Remove-Item -Recurse './Publish/RicohAddressBook/' -ErrorAction Ignore
             Copy-Item -Recurse './Module/' './Publish/RicohAddressBook/'
