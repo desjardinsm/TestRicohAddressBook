@@ -19,12 +19,11 @@ install:
 build: false
 test_script:
   - ps: |-
-      exit 1
-      # Invoke-psake ./psakefile.ps1 test
+      Invoke-psake ./psakefile.ps1 test
 
-      # if ($LASTEXITCODE -gt 0) {
-      #   throw 'Tests failed'
-      # }
+      if (-not $psake.build_success) {
+        exit 1
+      }
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
