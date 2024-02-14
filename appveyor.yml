@@ -23,7 +23,7 @@ deploy:
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: $(RELEASE_DESCRIPTION)
     auth_token:
-      secure: VCHxmBBb4C7d3FlTgQGh/A== # invalid token
+      secure: +PxazkcvZpF9LLVySBX9zHY5O8hIWpW0+6AGd7j3uX747Sl8hyIqHMgpBiAC4WpYa8hjCJI6KTzYdDD+G7iczS7UGspTj+UzK9708fNYLcET3pe/bvndYzg4UKbW9k4L
     artifact: $(APPVEYOR_PROJECT_NAME)
     prerelease: $(IS_PRERELEASE)
     on:
