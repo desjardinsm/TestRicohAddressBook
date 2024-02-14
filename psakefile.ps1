@@ -37,3 +37,19 @@ Task TagRelease {
 
     git tag -a $tagName -m $tagName
 }
+
+if ($env:CI -eq $true) {
+    Task InitializeDeployments {
+        if ($env:APPVEYOR -eq $true) {
+            if ($env:APPVEYOR_REPO_TAG -eq $true) {
+                $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
+            }
+
+            $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
+                "Release $env:APPVEYOR_REPO_TAG_NAME"
+            } else {
+                $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
+            }
+        }
+    }
+}
