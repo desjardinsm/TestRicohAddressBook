@@ -34,8 +34,16 @@ deploy:
     prerelease: $(IS_PRERELEASE)
     on:
       APPVEYOR_REPO_TAG: true
-after_deploy:
-  - ps: Start-Task DeployToPowerShellGallery
+  - provider: NuGet
+    server: https://www.powershellgallery.com/api/v2
+    api_key:
+      secure: 23+pfmN1D6MWK5DKZNxxX1R3VxBJ/Dn8/wVzJWqV7RvJcBoffGEx96hfa/fPOHyW
+    skip_symbols: true
+    artifact: $(APPVEYOR_PROJECT_NAME)
+    on:
+      IS_PRERELEASE: false
+# after_deploy:
+#   - ps: Start-Task DeployToPowerShellGallery
 on_finish:
   # Upload test results on build finish (after_test will not run on a failed build)
   - ps: Start-Task UploadTestResults
