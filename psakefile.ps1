@@ -54,14 +54,10 @@ if ($env:CI -eq $true) {
     }
 
     Task DeployToPowerShellGallery -precondition {$env:IS_PRERELEASE -eq $false} {
-        Write-Host 'deploying'
-        return
-        if ($env:IS_PRERELEASE -eq $false) {
-            Remove-Item -Recurse './Publish/RicohAddressBook/' -ErrorAction Ignore
-            Copy-Item -Recurse './Module/' './Publish/RicohAddressBook/'
+        Remove-Item -Recurse './Publish/TestRicohAddressBook/' -ErrorAction Ignore
+        Copy-Item -Recurse './Module/' './Publish/TestRicohAddressBook/'
 
-            Publish-Module -Path './Publish/RicohAddressBook/' -NuGetApiKey $env:NuGetApiKey
-        }
+        Publish-Module -Path './Publish/TestRicohAddressBook/' -NuGetApiKey $env:NuGetApiKey
     }
 
     Task UploadTestResults {
