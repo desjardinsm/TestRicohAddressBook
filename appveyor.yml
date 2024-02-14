@@ -20,7 +20,7 @@ build: false
 test_script:
   - ps: Start-Task Test
 after_test:
-  - ps: Start-Task InitializeDeploymerts
+  - ps: Start-Task InitializeDeployments
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
