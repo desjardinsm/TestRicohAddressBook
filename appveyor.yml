@@ -1,5 +1,16 @@
 version: "{build}"
 skip_non_tags: true
+init:
+  - ps: |-
+      function Task {
+        param([string] $Task)
+
+        Invoke-psake -buildFile ./psakefile.ps1 -taskList $Task -nologo -notr
+
+        if (-not $psake.build_success) {
+          exit 1
+        }
+      }
 environment:
   NuGetApiKey:
     secure: 23+pfmN1D6MWK5DKZNxxX1R3VxBJ/Dn8/wVzJWqV7RvJcBoffGEx96hfa/fPOHyW
@@ -7,17 +18,12 @@ install:
   - ps: Install-Module psake, Pester
 build: false
 test_script:
-  - ps: |-
-      Invoke-psake -buildFile ./psakefile.ps1 -taskList Test -nologo -notr
-
-      if (-not $psake.build_success) {
-        exit 1
-      }
+  - ps: Task Test
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
 before_deploy:
-  - ps: Invoke-psake -buildFile ./psakefile.ps1 -taskList InitializeDeployments -nologo -notr
+  - ps: Task InitializeDeployments
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
@@ -29,12 +35,7 @@ deploy:
     on:
       APPVEYOR_REPO_TAG: true
 after_deploy:
-  - ps: |-
-      Invoke-psake -buildFile ./psakefile.ps1 -taskList DeployToPowerShellGallery -nologo -notr
-
-      if (-not $psake.build_success) {
-        exit 1
-      }
+  - ps: Task DeployToPowerShellGallery
 on_finish:
   # Upload test results on build finish (after_test will not run on a failed build)
-  - ps: Invoke-psake -buildFile ./psakefile.ps1 -taskList UploadTestResults -nologo -notr
+  - ps: Task UploadTestResults
