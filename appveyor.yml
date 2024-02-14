@@ -2,7 +2,7 @@ version: "{build}"
 skip_non_tags: true
 init:
   - ps: |-
-      function Invoke-Task {
+      function Start-Task {
         param([string] $Task)
 
         Invoke-psake -buildFile ./psakefile.ps1 -taskList $Task -nologo -notr
@@ -18,12 +18,12 @@ install:
   - ps: Install-Module psake, Pester
 build: false
 test_script:
-  - ps: Invoke-Task Test
+  - ps: Start-Task Test
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
 before_deploy:
-  - ps: Invoke-Task InitializeDeployments
+  - ps: Start-Task InitializeDeployments
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
@@ -35,7 +35,7 @@ deploy:
     on:
       APPVEYOR_REPO_TAG: true
 after_deploy:
-  - ps: Invoke-Task DeployToPowerShellGallery
+  - ps: Start-Task DeployToPowerShellGallery
 on_finish:
   # Upload test results on build finish (after_test will not run on a failed build)
-  - ps: Invoke-Task UploadTestResults
+  - ps: Start-Task UploadTestResults
