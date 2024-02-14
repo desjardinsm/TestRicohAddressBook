@@ -11,6 +11,7 @@ init:
           exit 1
         }
       }
+  - ps: Start-Task InitializeDeployments
 environment:
   NuGetApiKey:
     secure: 23+pfmN1D6MWK5DKZNxxX1R3VxBJ/Dn8/wVzJWqV7RvJcBoffGEx96hfa/fPOHyW
@@ -22,8 +23,6 @@ test_script:
 artifacts:
   - path: Module
     name: $(APPVEYOR_PROJECT_NAME)
-before_deploy:
-  - ps: Start-Task InitializeDeployments
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
