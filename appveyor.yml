@@ -29,13 +29,7 @@ deploy:
     on:
       APPVEYOR_REPO_TAG: true
 after_deploy:
-  - ps: |-
-      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:IS_PRERELEASE -eq $false) {
-        Remove-Item -Recurse ./Publish/RicohAddressBook/ -ErrorAction Ignore
-        Copy-Item -Recurse ./Module/ ./Publish/TestRicohAddressBook/
-
-        Publish-Module -Path ./Publish/TestRicohAddressBook/ -NuGetApiKey $env:NuGetApiKey
-      }
+  - ps: Invoke-psake -buildFile ./psakefile.ps1 -taskList DeployToPowerShellGallery -nologo -notr
 # on_finish:
 #   # Upload test results on build finish (after_test will not run on a failed build)
 #   - ps: |-
