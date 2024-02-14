@@ -46,10 +46,10 @@ after_deploy:
 
         Publish-Module -Path ./Publish/TestRicohAddressBook/ -NuGetApiKey $env:NuGetApiKey
       }
-on_finish:
-  # Upload test results on build finish (after_test will not run on a failed build)
-  - ps: |-
-      # Upload test results to AppVeyor
-      $client = [System.Net.WebClient]::new()
-      $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
-      $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
+# on_finish:
+#   # Upload test results on build finish (after_test will not run on a failed build)
+#   - ps: |-
+#       # Upload test results to AppVeyor
+#       $client = [System.Net.WebClient]::new()
+#       $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
+#       $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
