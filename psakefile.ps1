@@ -46,6 +46,7 @@ Task TagRelease {
         $tagName += "-pre.$next"
     }
 
+    Write-Host "git tag -a $tagName -m $tagName"
     git tag -a $tagName -m $tagName
 }
 
@@ -54,6 +55,7 @@ if ($env:CI -eq $true) {
         if ($env:APPVEYOR -eq $true) {
             if ($env:APPVEYOR_REPO_TAG -eq $true) {
                 $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
+                Write-Host ('$env:IS_PRERELEASE = "{0}"' -f $env:IS_PRERELEASE)
             }
 
             $env:RELEASE_DESCRIPTION = if ($null -eq $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
@@ -61,6 +63,7 @@ if ($env:CI -eq $true) {
             } else {
                 $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
             }
+            Write-Host ('$env:RELEASE_DESCRIPTION = "{0}"' -f $env:RELEASE_DESCRIPTION)
         }
     }
 
