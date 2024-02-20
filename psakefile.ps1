@@ -85,7 +85,6 @@ if ('True' -ieq $env:CI) {
         param($task)
 
         if (-not $task.Success) {
-            Write-Host $PSCmdlet
             $PSCmdlet.Host.UI.WriteErrorLine("Task $($task.Name) failed: $($task.ErrorMessage)")
             exit 1
         }
