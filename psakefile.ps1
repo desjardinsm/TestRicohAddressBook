@@ -1,4 +1,4 @@
-Task test {
+Task Test {
     $configuration = New-PesterConfiguration
 
     $configuration.Output.Verbosity = if ($Detailed) {
