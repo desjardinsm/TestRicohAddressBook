@@ -82,4 +82,12 @@ if ('True' -ieq $env:CI) {
             $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
         }
     }
+
+    TaskTearDown {
+        param($task)
+
+        if (-not $task.Success) {
+            exit 1
+        }
+    }
 }
