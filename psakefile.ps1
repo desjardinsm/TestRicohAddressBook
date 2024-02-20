@@ -1,11 +1,18 @@
 Task test {
     $configuration = New-PesterConfiguration
 
-    $resultsDirectory = 'TestResults'
+    $configuration.Output.Verbosity = if ($Detailed) {
+        'Detailed'
+    } else {
+        'Normal'
+    }
 
-    $configuration.Run.Throw = $true
+    if ('True' -ieq $env:CI) {
+        $configuration.Run.Exit = $true
+        $Results = $true
+    }
 
-    if ('True' -eq $env:CI -or $Results) {
+    if ($Results) {
         $resultsDirectory = 'TestResults'
 
         $configuration.TestResult.Enabled = $true
