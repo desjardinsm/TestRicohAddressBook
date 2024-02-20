@@ -28,7 +28,7 @@ Task Test {
 }
 
 Task TagRelease {
-    $module = Test-ModuleManifest -Path (Join-Path 'Module' 'RicohAddressBook.psd1')
+    $module = Test-ModuleManifest -Path (Join-Path 'Module' 'TestRicohAddressBook.psd1')
     $tagName = "v$($module.Version)"
 
     if ($PreRelease) {
