@@ -27,6 +27,10 @@ Task Test {
     Invoke-Pester -Configuration $configuration
 }
 
+Task ThrowError {
+    throw 'Task failed'
+}
+
 Task TagRelease {
     $module = Test-ModuleManifest -Path (Join-Path 'Module' 'RicohAddressBook.psd1')
     $tagName = "v$($module.Version)"
