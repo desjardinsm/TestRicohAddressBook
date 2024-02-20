@@ -83,6 +83,7 @@ if ('True' -ieq $env:CI) {
         param($task)
 
         if (-not $task.Success) {
+            Write-Host "$($task.Name) failed:" $task.ErrorMessage
             exit 1
         }
     }
