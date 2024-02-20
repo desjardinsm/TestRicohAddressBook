@@ -77,8 +77,6 @@ if ('True' -ieq $env:CI) {
             $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
             $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
         }
-
-        throw 'Could not upload test results'
     }
 
     TaskTearDown {
