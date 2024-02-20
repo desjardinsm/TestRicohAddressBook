@@ -12,7 +12,6 @@ install:
   - ps: Install-Module psake, Pester
 build: false
 test_script:
-  - ps: Invoke-psake ThrowError
   - ps: Invoke-psake Test
 artifacts:
   - path: Module
