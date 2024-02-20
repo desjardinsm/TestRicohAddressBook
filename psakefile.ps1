@@ -50,10 +50,10 @@ Task TagRelease {
     git tag -a $tagName -m $tagName
 }
 
-if ($env:CI -eq $true) {
+if ('True' -ieq $env:CI) {
     Task InitializeDeployments {
-        if ($env:APPVEYOR -eq $true) {
-            if ($env:APPVEYOR_REPO_TAG -eq $true) {
+        if ('True' -ieq $env:APPVEYOR) {
+            if ('True' -ieq $env:APPVEYOR_REPO_TAG) {
                 $env:IS_PRERELEASE = $env:APPVEYOR_REPO_TAG_NAME -like '*-pre.*'
                 Write-Host ('$env:IS_PRERELEASE = "{0}"' -f $env:IS_PRERELEASE)
             }
@@ -67,7 +67,7 @@ if ($env:CI -eq $true) {
         }
     }
 
-    Task DeployToPowerShellGallery -precondition {$env:IS_PRERELEASE -eq $false} {
+    Task DeployToPowerShellGallery -precondition { 'False' -ieq $env:IS_PRERELEASE } {
         Remove-Item -Recurse './Publish/TestRicohAddressBook/' -ErrorAction Ignore
         Copy-Item -Recurse './Module/' './Publish/TestRicohAddressBook/'
 
@@ -75,7 +75,7 @@ if ($env:CI -eq $true) {
     }
 
     Task UploadTestResults {
-        if ($env:APPVEYOR -eq $true) {
+        if ('True' -ieq $env:APPVEYOR) {
             # Upload test results to AppVeyor
             $client = [System.Net.WebClient]::new()
             $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
