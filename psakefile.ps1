@@ -77,13 +77,15 @@ if ('True' -ieq $env:CI) {
             $results = Resolve-Path (Join-Path 'TestResults' 'testResults.xml')
             $client.UploadFile("$env:APPVEYOR_URL/api/testresults/nunit3/$env:APPVEYOR_JOB_ID", $results)
         }
+
+        throw 'Task failure'
     }
 
     TaskTearDown {
         param($task)
 
         if (-not $task.Success) {
-            Write-Host "Task $($task.Name) failed:" $task.ErrorMessage
+            Write-Error "Task $($task.Name) failed:" $task.ErrorMessage
             exit 1
         }
     }
