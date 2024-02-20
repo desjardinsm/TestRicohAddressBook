@@ -85,7 +85,7 @@ if ('True' -ieq $env:CI) {
         param($task)
 
         if (-not $task.Success) {
-            Write-Error "Task $($task.Name) failed:" $task.ErrorMessage
+            Write-Error "Task $($task.Name) failed: $($task.ErrorMessage)"
             exit 1
         }
     }
